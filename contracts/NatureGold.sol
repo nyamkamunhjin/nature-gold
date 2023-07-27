@@ -13,4 +13,5 @@ contract NatureGold is ERC20 {
     constructor() ERC20("NatureGold", "NG") {
         _mint(msg.sender, initialSupply);
     }
+
 }

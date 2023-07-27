@@ -39,7 +39,7 @@ async function main() {
 
     // transfer(to, amount)
     console.log('Initiating a transfer...');
-    const recipientAddress = '0x9d2420c125AB0f4cc56dC93d29233213a128743d';
+    const recipientAddress = '0x9d2420c125AB0f4cc56dC93d29233213a128743d'; // custom generated address in metamask
     const transferAmount = 10000;
     console.log(`Transferring ${transferAmount} ${symbol} tokens to ${recipientAddress} from ${ownerAddress}`);
     await natureGold.transfer(recipientAddress, ethers.utils.parseUnits(transferAmount.toString(), decimals));

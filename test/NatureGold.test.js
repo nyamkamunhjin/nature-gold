@@ -24,12 +24,12 @@ describe('NatureGold', function () {
   // Test cases
   it('Creates a token with a name', async function () {
     expect(await this.natureGold.name()).to.exist;
-    // expect(await this.natureGold.name()).to.equal('NatureGold');
+    expect(await this.natureGold.name()).to.equal('NatureGold');
   });
 
   it('Creates a token with a symbol', async function () {
     expect(await this.natureGold.symbol()).to.exist;
-    // expect(await this.natureGold.symbol()).to.equal('NG');
+    expect(await this.natureGold.symbol()).to.equal('NG');
   });
 
   it('Has a valid decimal', async function () {
@@ -37,7 +37,7 @@ describe('NatureGold', function () {
   })
 
   it('Has a valid total supply', async function () {
-    const expectedSupply = ethers.utils.parseUnits('1000000', this.decimals);
+    const expectedSupply = ethers.utils.parseUnits('388793750', this.decimals);
     expect((await this.natureGold.totalSupply()).toString()).to.equal(expectedSupply);
   });
 
