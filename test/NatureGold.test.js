@@ -1,17 +1,14 @@
 const { expect } = require('chai');
 const { ethers } = require("hardhat");
 
-// Start test block
 describe('NatureGold', function () {
   before(async function () {
-    this.NatureGold = await ethers.getContractFactory('NatureGold');
+    this.natureGoldContract = await ethers.getContractFactory('NatureGold');
   });
 
   beforeEach(async function () {
-    this.natureGold = await this.NatureGold.deploy();
+    this.natureGold = await this.natureGoldContract.deploy();
     await this.natureGold.deployed();
-
-    this.decimals = await this.natureGold.decimals();
 
     const signers = await ethers.getSigners();
 
@@ -22,21 +19,21 @@ describe('NatureGold', function () {
   });
 
   // Test cases
-  it('Creates a token with a name', async function () {
+  it('Has a correct token name', async function () {
     expect(await this.natureGold.name()).to.exist;
     expect(await this.natureGold.name()).to.equal('NatureGold');
   });
 
-  it('Creates a token with a symbol', async function () {
+  it('Has a correct token symbol', async function () {
     expect(await this.natureGold.symbol()).to.exist;
     expect(await this.natureGold.symbol()).to.equal('NG');
   });
 
-  it('Has a valid decimal', async function () {
+  it('Has a correct decimal', async function () {
     expect((await this.natureGold.decimals()).toString()).to.equal('18');
   })
 
-  it('Has a valid total supply', async function () {
+  it('Has a correct initial total supply', async function () {
     const expectedSupply = ethers.utils.parseUnits('388793750', this.decimals);
     expect((await this.natureGold.totalSupply()).toString()).to.equal(expectedSupply);
   });
