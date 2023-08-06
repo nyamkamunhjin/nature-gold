@@ -1,8 +1,12 @@
-const dotenv = require('dotenv')
+import dotenv from 'dotenv';
 
-require("@nomicfoundation/hardhat-toolbox");
-require("@nomiclabs/hardhat-ethers");
-require("@nomicfoundation/hardhat-chai-matchers")
+import "@nomicfoundation/hardhat-toolbox"
+import "@nomiclabs/hardhat-ethers"
+import "@nomicfoundation/hardhat-chai-matchers"
+import "@openzeppelin/hardhat-upgrades"
+
+
+import { HardhatUserConfig } from 'hardhat/types';
 
 dotenv.config()
 
@@ -13,10 +17,10 @@ const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
 // To export your private key from Metamask, open Metamask and
 // go to Account Details > Export Private Key
 // Beware: NEVER put real Ether into testing accounts
-const MUMBAI_PRIVATE_KEY = process.env.META_MASK_PRIVATE_KEY;
+const MUMBAI_PRIVATE_KEY = process.env.META_MASK_PRIVATE_KEY as string;
 
 /** @type import('hardhat/config').HardhatUserConfig */
-module.exports = {
+const config: HardhatUserConfig = {
   solidity: "0.8.9",
   networks: {
     mumbai: {
@@ -25,3 +29,5 @@ module.exports = {
     }
   }
 };
+
+export default config;

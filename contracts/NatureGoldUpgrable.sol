@@ -9,7 +9,7 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 
-contract NatureGoldUpgradeable is ERC20Upgradeable, AccessControlEnumerableUpgradeable, ERC20PermitUpgradeable, ERC20VotesUpgradeable {
+contract NatureGoldUpgradeable is Initializable, ERC20Upgradeable, AccessControlEnumerableUpgradeable, ERC20PermitUpgradeable, ERC20VotesUpgradeable {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
     // Define the supply of NatureGold: 388,793,750

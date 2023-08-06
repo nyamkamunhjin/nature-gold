@@ -5,7 +5,7 @@
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
 
-const { ethers } = require("hardhat");
+import { ethers } from "hardhat";
 
 async function main() {
 
@@ -19,8 +19,8 @@ async function main() {
   // Deploy the contract
   console.log('Deploying NatureGold...');
   const natureGold = await NatureGold.deploy();
-  await natureGold.deployed();
-  console.log(`NatureGold deployed to: ${natureGold.address}`)
+  await natureGold.waitForDeployment();
+  console.log(`NatureGold deployed to: ${await natureGold.getAddress()}`)
 }
 
 // We recommend this pattern to be able to use async/await everywhere
