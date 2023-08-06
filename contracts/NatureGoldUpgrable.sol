@@ -15,15 +15,9 @@ contract NatureGoldUpgradeable is ERC20Upgradeable, AccessControlEnumerableUpgra
     // Define the supply of NatureGold: 388,793,750
     uint256 constant INITIAL_SUPPLY = 388793750 * (10**18);
 
-    // constructor() ERC20("NatureGold", "NG") ERC20Permit("NatureGold") {
-    //     _mint(msg.sender, INITIAL_SUPPLY);
-
-    //     _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
-    //     _setupRole(MINTER_ROLE, msg.sender);
-    // }
-
      function initialize() external initializer {
         __ERC20_init("NatureGold", "NG");
+        __ERC20Permit_init("NatureGold");
 
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _setupRole(MINTER_ROLE, msg.sender);
