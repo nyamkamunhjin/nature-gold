@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { BaseContract, ContractTransactionResponse } from 'ethers';
 import { ethers } from "hardhat";
 
 describe('NatureGold', function () {
@@ -8,6 +9,7 @@ describe('NatureGold', function () {
 
   beforeEach(async function () {
     this.natureGold = await this.natureGoldContract.deploy()
+
     await this.natureGold.waitForDeployment();
 
     const signers = await ethers.getSigners();
@@ -46,9 +48,8 @@ describe('NatureGold', function () {
   it('Transfers the right amount of tokens to/from an account', async function () {
     const transferAmount = 1000;
 
-    console.log(this.natureGold)
 
-    await expect(this.natureGold.transfer(this.recipientAddress, transferAmount)).to.changeTokenBalance(
+    await expect((this.natureGold).transfer(this.recipientAddress, transferAmount)).to.changeTokenBalance(
       this.natureGold,
       [this.ownerAddress, this.recipientAddress],
       [-transferAmount, transferAmount]
@@ -65,7 +66,7 @@ describe('NatureGold', function () {
   it('Allows for allowance approvals and queries', async function () {
     const approveAmount = 10000;
     await this.signerContract.approve(this.ownerAddress, ethers.parseUnits(approveAmount.toString(), this.decimals));
-    
+
     expect((await this.natureGold.allowance(this.recipientAddress, this.ownerAddress))).to.equal(ethers.parseUnits(approveAmount.toString(), this.decimals));
   });
 
