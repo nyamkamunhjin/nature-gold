@@ -13,6 +13,7 @@ contract NatureGold is AccessControlEnumerable, ERC20, ERC20Permit, ERC20Votes {
 
     // Define the supply of NatureGold: 388,793,750
     uint256 constant INITIAL_SUPPLY = 388793750 * (10**18);
+    string public metadataURI;
 
     constructor() ERC20("NatureGold", "NG") ERC20Permit("NatureGold") {
         _mint(msg.sender, INITIAL_SUPPLY);
@@ -34,7 +35,11 @@ contract NatureGold is AccessControlEnumerable, ERC20, ERC20Permit, ERC20Votes {
         require(hasRole(MINTER_ROLE, msg.sender), "NatureGold: must have minter role to mint");
         _mint(to, amount);
     }
-    
+
+    function setMetadataURI(string memory uri) external {
+        require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "NatureGold: must have admin role to set metadata uri");
+        metadataURI = uri;
+    }
 
     // The following functions are overrides required by Solidity.
 
