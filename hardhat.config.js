@@ -1,7 +1,7 @@
 const dotenv = require('dotenv')
 
-require("@nomicfoundation/hardhat-toolbox");
 require("@nomiclabs/hardhat-ethers");
+require("@openzeppelin/hardhat-upgrades")
 require("@nomicfoundation/hardhat-chai-matchers")
 
 dotenv.config()

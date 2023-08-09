@@ -1,24 +1,19 @@
 const { expect } = require('chai');
-const { ethers } = require("hardhat");
+const { ethers, upgrades } = require("hardhat");
 
 describe('NatureGold', function () {
-  before(async function () {
-    this.natureGoldContract = await ethers.getContractFactory('NatureGold');
-  });
-
   beforeEach(async function () {
-    this.natureGold = await this.natureGoldContract.deploy();
+    this.natureGold = await upgrades.deployProxy(await ethers.getContractFactory('NatureGold'));
     await this.natureGold.deployed();
 
-    const signers = await ethers.getSigners();
+    [this.owner, ...users] = await ethers.getSigners();
+    this.recipient = users[1];
 
-    this.ownerAddress = signers[0].address;
-    this.recipientAddress = signers[1].address;
-
-    this.signerContract = this.natureGold.connect(signers[1]);
+    this.signerContract = this.natureGold.connect(this.recipient);
   });
 
   // Test cases
+
   it('Has a correct token name', async function () {
     expect(await this.natureGold.name()).to.exist;
     expect(await this.natureGold.name()).to.equal('NatureGold');
@@ -39,94 +34,94 @@ describe('NatureGold', function () {
   });
 
   it('Is able to query account balances', async function () {
-    const ownerBalance = await this.natureGold.balanceOf(this.ownerAddress);
-    expect(await this.natureGold.balanceOf(this.ownerAddress)).to.equal(ownerBalance);
+    const ownerBalance = await this.natureGold.balanceOf(this.owner.address);
+    expect(await this.natureGold.balanceOf(this.owner.address)).to.equal(ownerBalance);
   });
 
   it('Transfers the right amount of tokens to/from an account', async function () {
     const transferAmount = 1000;
-    await expect(this.natureGold.transfer(this.recipientAddress, transferAmount)).to.changeTokenBalances(
+    await expect(this.natureGold.transfer(this.recipient.address, transferAmount)).to.changeTokenBalances(
         this.natureGold,
-        [this.ownerAddress, this.recipientAddress],
+        [this.owner.address, this.recipient.address],
         [-transferAmount, transferAmount]
       );
   });
 
   it('Emits a transfer event with the right arguments', async function () {
     const transferAmount = 100000;
-    await expect(this.natureGold.transfer(this.recipientAddress, ethers.utils.parseUnits(transferAmount.toString(), this.decimals)))
+    await expect(this.natureGold.transfer(this.recipient.address, ethers.utils.parseUnits(transferAmount.toString(), this.decimals)))
         .to.emit(this.natureGold, "Transfer")
-        .withArgs(this.ownerAddress, this.recipientAddress, ethers.utils.parseUnits(transferAmount.toString(), this.decimals))
+        .withArgs(this.owner.address, this.recipient.address, ethers.utils.parseUnits(transferAmount.toString(), this.decimals))
   });
 
   it('Allows for allowance approvals and queries', async function () {
     const approveAmount = 10000;
-    await this.signerContract.approve(this.ownerAddress, ethers.utils.parseUnits(approveAmount.toString(), this.decimals));
-    expect((await this.natureGold.allowance(this.recipientAddress, this.ownerAddress))).to.equal(ethers.utils.parseUnits(approveAmount.toString(), this.decimals));
+    await this.signerContract.approve(this.owner.address, ethers.utils.parseUnits(approveAmount.toString(), this.decimals));
+    expect((await this.natureGold.allowance(this.recipient.address, this.owner.address))).to.equal(ethers.utils.parseUnits(approveAmount.toString(), this.decimals));
   });
 
   it('Emits an approval event with the right arguments', async function () {
     const approveAmount = 10000;
-    await expect(this.signerContract.approve(this.ownerAddress, ethers.utils.parseUnits(approveAmount.toString(), this.decimals)))
+    await expect(this.signerContract.approve(this.owner.address, ethers.utils.parseUnits(approveAmount.toString(), this.decimals)))
         .to.emit(this.natureGold, "Approval")
-        .withArgs(this.recipientAddress, this.ownerAddress, ethers.utils.parseUnits(approveAmount.toString(), this.decimals))
+        .withArgs(this.recipient.address, this.owner.address, ethers.utils.parseUnits(approveAmount.toString(), this.decimals))
   }); 
 
   it('Allows an approved spender to transfer from owner', async function () {
     const transferAmount = 10000;
-    await this.natureGold.transfer(this.recipientAddress, ethers.utils.parseUnits(transferAmount.toString(), this.decimals))
-    await this.signerContract.approve(this.ownerAddress, ethers.utils.parseUnits(transferAmount.toString(), this.decimals))
-    await expect(this.natureGold.transferFrom(this.recipientAddress, this.ownerAddress, transferAmount)).to.changeTokenBalances(
+    await this.natureGold.transfer(this.recipient.address, ethers.utils.parseUnits(transferAmount.toString(), this.decimals))
+    await this.signerContract.approve(this.owner.address, ethers.utils.parseUnits(transferAmount.toString(), this.decimals))
+    await expect(this.natureGold.transferFrom(this.recipient.address, this.owner.address, transferAmount)).to.changeTokenBalances(
         this.natureGold,
-        [this.ownerAddress, this.recipientAddress],
+        [this.owner.address, this.recipient.address],
         [transferAmount, -transferAmount]
       );
   });
 
   it('Emits a transfer event with the right arguments when conducting an approved transfer', async function () {
     const transferAmount = 10000;
-    await this.natureGold.transfer(this.recipientAddress, ethers.utils.parseUnits(transferAmount.toString(), this.decimals))
-    await this.signerContract.approve(this.ownerAddress, ethers.utils.parseUnits(transferAmount.toString(), this.decimals))
-    await expect(this.natureGold.transferFrom(this.recipientAddress, this.ownerAddress, ethers.utils.parseUnits(transferAmount.toString(), this.decimals)))
+    await this.natureGold.transfer(this.recipient.address, ethers.utils.parseUnits(transferAmount.toString(), this.decimals))
+    await this.signerContract.approve(this.owner.address, ethers.utils.parseUnits(transferAmount.toString(), this.decimals))
+    await expect(this.natureGold.transferFrom(this.recipient.address, this.owner.address, ethers.utils.parseUnits(transferAmount.toString(), this.decimals)))
         .to.emit(this.natureGold, "Transfer")
-        .withArgs(this.recipientAddress, this.ownerAddress, ethers.utils.parseUnits(transferAmount.toString(), this.decimals))
+        .withArgs(this.recipient.address, this.owner.address, ethers.utils.parseUnits(transferAmount.toString(), this.decimals))
   });
 
   it('Allows allowance to be increased and queried', async function () {
     const initialAmount = 100;
     const incrementAmount = 10000;
-    await this.signerContract.approve(this.ownerAddress, ethers.utils.parseUnits(initialAmount.toString(), this.decimals))
-    const previousAllowance = await this.natureGold.allowance(this.recipientAddress, this.ownerAddress);
-    await this.signerContract.increaseAllowance(this.ownerAddress, ethers.utils.parseUnits(incrementAmount.toString(), this.decimals));
+    await this.signerContract.approve(this.owner.address, ethers.utils.parseUnits(initialAmount.toString(), this.decimals))
+    const previousAllowance = await this.natureGold.allowance(this.recipient.address, this.owner.address);
+    await this.signerContract.increaseAllowance(this.owner.address, ethers.utils.parseUnits(incrementAmount.toString(), this.decimals));
     const expectedAllowance = ethers.BigNumber.from(previousAllowance).add(ethers.BigNumber.from(ethers.utils.parseUnits(incrementAmount.toString(), this.decimals)))
-    expect((await this.natureGold.allowance(this.recipientAddress, this.ownerAddress))).to.equal(expectedAllowance);
+    expect((await this.natureGold.allowance(this.recipient.address, this.owner.address))).to.equal(expectedAllowance);
   });
 
   it('Emits approval event when alllowance is increased', async function () {
     const incrementAmount = 10000;
-    await expect(this.signerContract.increaseAllowance(this.ownerAddress, ethers.utils.parseUnits(incrementAmount.toString(), this.decimals)))
+    await expect(this.signerContract.increaseAllowance(this.owner.address, ethers.utils.parseUnits(incrementAmount.toString(), this.decimals)))
         .to.emit(this.natureGold, "Approval")
-        .withArgs(this.recipientAddress, this.ownerAddress, ethers.utils.parseUnits(incrementAmount.toString(), this.decimals))
+        .withArgs(this.recipient.address, this.owner.address, ethers.utils.parseUnits(incrementAmount.toString(), this.decimals))
   });
 
   it('Allows allowance to be decreased and queried', async function () {
     const initialAmount = 100;
     const decrementAmount = 10;
-    await this.signerContract.approve(this.ownerAddress, ethers.utils.parseUnits(initialAmount.toString(), this.decimals))
-    const previousAllowance = await this.natureGold.allowance(this.recipientAddress, this.ownerAddress);
-    await this.signerContract.decreaseAllowance(this.ownerAddress, ethers.utils.parseUnits(decrementAmount.toString(), this.decimals));
+    await this.signerContract.approve(this.owner.address, ethers.utils.parseUnits(initialAmount.toString(), this.decimals))
+    const previousAllowance = await this.natureGold.allowance(this.recipient.address, this.owner.address);
+    await this.signerContract.decreaseAllowance(this.owner.address, ethers.utils.parseUnits(decrementAmount.toString(), this.decimals));
     const expectedAllowance = ethers.BigNumber.from(previousAllowance).sub(ethers.BigNumber.from(ethers.utils.parseUnits(decrementAmount.toString(), this.decimals)))
-    expect((await this.natureGold.allowance(this.recipientAddress, this.ownerAddress))).to.equal(expectedAllowance);
+    expect((await this.natureGold.allowance(this.recipient.address, this.owner.address))).to.equal(expectedAllowance);
   });
 
   it('Emits approval event when alllowance is decreased', async function () {
     const initialAmount = 100;
     const decrementAmount = 10;
-    await this.signerContract.approve(this.ownerAddress, ethers.utils.parseUnits(initialAmount.toString(), this.decimals))
+    await this.signerContract.approve(this.owner.address, ethers.utils.parseUnits(initialAmount.toString(), this.decimals))
     const expectedAllowance = ethers.BigNumber.from(ethers.utils.parseUnits(initialAmount.toString(), this.decimals)).sub(ethers.BigNumber.from(ethers.utils.parseUnits(decrementAmount.toString(), this.decimals)))
-    await expect(this.signerContract.decreaseAllowance(this.ownerAddress, ethers.utils.parseUnits(decrementAmount.toString(), this.decimals)))
+    await expect(this.signerContract.decreaseAllowance(this.owner.address, ethers.utils.parseUnits(decrementAmount.toString(), this.decimals)))
         .to.emit(this.natureGold, "Approval")
-        .withArgs(this.recipientAddress, this.ownerAddress, expectedAllowance)
+        .withArgs(this.recipient.address, this.owner.address, expectedAllowance)
   });
 
 });
