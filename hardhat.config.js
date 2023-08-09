@@ -17,11 +17,20 @@ const MUMBAI_PRIVATE_KEY = process.env.META_MASK_PRIVATE_KEY;
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.8.9",
+  solidity: {
+    version: "0.8.9",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
+    },
+  },
   networks: {
     mumbai: {
       url: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
       accounts: [MUMBAI_PRIVATE_KEY]
     }
-  }
+  },
+  allowUnlimitedContractSize: true,
 };
