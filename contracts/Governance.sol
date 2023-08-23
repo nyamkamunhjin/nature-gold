@@ -1,6 +1,6 @@
 // contracts/Governance.sol
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity 0.8.9;
 
 import "@openzeppelin/contracts-upgradeable/governance/GovernorUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/governance/extensions/GovernorSettingsUpgradeable.sol";
@@ -16,7 +16,11 @@ contract Governance is Initializable, GovernorUpgradeable, GovernorSettingsUpgra
         _disableInitializers();
     }
 
-    function initialize(IVotesUpgradeable _token) initializer public {
+    /** 
+     * @dev Initialize the governance contract
+     * @param _token The address of the token to be used for voting
+     */
+    function initialize(IVotesUpgradeable _token) public initializer {
         __Governor_init("NatureGold Governance");
         __GovernorSettings_init(7200 /* 1 day */, 50400 /* 1 week */, 0);
         __GovernorCountingSimple_init();

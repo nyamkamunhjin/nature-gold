@@ -1,6 +1,6 @@
 // contracts/NatureGold.sol
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity 0.8.9;
 
 import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
@@ -27,9 +27,12 @@ contract NatureGold is
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
-        initialize();
+        _disableInitializers();
     }
 
+    /**
+     * @dev Initialize the NatureGold contract
+     */
     function initialize() public initializer {
         __ERC20_init("NatureGold", "NG");
         __AccessControl_init();
@@ -56,6 +59,9 @@ contract NatureGold is
         _mint(to, amount);
     }
 
+    /**
+     * @dev Sets the metadata URI.
+     */
     function setMetadataURI(string memory uri)
         external
         onlyRole(DEFAULT_ADMIN_ROLE)
@@ -63,6 +69,9 @@ contract NatureGold is
         metadataURI = uri;
     }
 
+    /**
+     * @dev Anti-bot transfer function.
+     */
     function _transfer(
         address sender,
         address recipient,
@@ -87,6 +96,9 @@ contract NatureGold is
         super._transfer(sender, recipient, adjustedAmount);
     }
 
+    /**
+     * @dev Returns the current nonce.
+     */
     function _getNonce() internal view returns (uint256) {
         return
             uint256(
