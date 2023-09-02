@@ -23,11 +23,16 @@ contract NatureGold is
     uint256 constant INITIAL_SUPPLY = 388793750 * (10**18);
     string public metadataURI;
 
+    address public uniswapPair;
+
     mapping(address => uint256) private _buyBlock;
+    uint256 public tradingBlock;
+
+    event PairUpdated(address uniswapPair);
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
-        _disableInitializers();
+        initialize();
     }
 
     /**
@@ -44,6 +49,15 @@ contract NatureGold is
 
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, msg.sender);
+    }
+
+    function setUniswapPair(address _pair) external onlyRole(MINTER_ROLE){
+        require(_pair != address(0x0), "Can't set to 0 address");
+        require(_pair != uniswapPair, "Already set to that address");
+
+        uniswapPair = _pair;
+
+        emit PairUpdated(_pair);
     }
 
     /**
@@ -78,6 +92,17 @@ contract NatureGold is
         uint256 amount
     ) internal override nonReentrant {
         require(_buyBlock[sender] != block.number, "Bad bot!"); // Prevent transfers from addresses that made a purchase in this block
+        
+        if(sender == uniswapPair) {
+            tradingBlock++;
+        }
+
+        if(tradingBlock < 20 && tx.gasprice > block.basefee && sender == uniswapPair){
+            uint256 maxPremium = 3000000000;
+            uint256 excessFee = tx.gasprice - block.basefee;
+
+            require(excessFee < maxPremium, "Stop bribe!");
+        }
 
         _buyBlock[recipient] = block.number; // Record the block number of the purchase for the recipient
         uint256 currentNonce = _getNonce();
