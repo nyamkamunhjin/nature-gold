@@ -39,9 +39,9 @@ contract NatureGold is
      * @dev Initialize the NatureGold contract
      */
     function initialize() public initializer {
-        __ERC20_init("NatureGold", "NG");
+        __ERC20_init("NaturesGold Token", "NGOLD");
         __AccessControl_init();
-        __ERC20Permit_init("NatureGold");
+        __ERC20Permit_init("NaturesGold Token");
         __ERC20Votes_init();
         __ReentrancyGuard_init();
 
