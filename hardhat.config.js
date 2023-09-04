@@ -13,7 +13,7 @@ const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
 // To export your private key from Metamask, open Metamask and
 // go to Account Details > Export Private Key
 // Beware: NEVER put real Ether into testing accounts
-const MUMBAI_PRIVATE_KEY = process.env.META_MASK_PRIVATE_KEY;
+const PRIVATE_KEY = process.env.META_MASK_PRIVATE_KEY;
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -27,15 +27,10 @@ module.exports = {
     },
   },
   networks: {
-    mumbai: {
-      url: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
-      accounts: [MUMBAI_PRIVATE_KEY]
+    polygon: {
+      url: `https://polygon-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+      accounts: [PRIVATE_KEY]
     }
   },
   allowUnlimitedContractSize: true,
-  etherscan: {
-    apiKey: {
-      polygonMumbai: process.env.POLYGON_SCAN_API_KEY
-    }
-  }
 };
