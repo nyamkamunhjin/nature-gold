@@ -33,4 +33,9 @@ module.exports = {
     }
   },
   allowUnlimitedContractSize: true,
+  etherscan: {
+    apiKey: {
+      polygon: process.env.POLYGON_SCAN_API_KEY
+    }
+  }
 };
