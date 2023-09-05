@@ -26,9 +26,12 @@ contract NatureGold is
     address public uniswapPair;
 
     mapping(address => uint256) private _buyBlock;
+    mapping(address => bool) public _exempted;
+
     uint256 public tradingBlock;
 
     event PairUpdated(address uniswapPair);
+    event Exempted(address _contract, bool status);
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -58,6 +61,13 @@ contract NatureGold is
         uniswapPair = _pair;
 
         emit PairUpdated(_pair);
+    }
+
+    function exemptAddress(address _contract, bool status) external onlyRole(MINTER_ROLE){
+        require(!_exempted[_contract], "Already exempted!");
+
+        _exempted[_contract] = status;
+        emit Exempted(_contract, status);
     }
 
     /**
@@ -114,7 +124,7 @@ contract NatureGold is
 
         uint256 adjustedAmount = amount;
 
-        if (randomDelay > 0) {
+        if (randomDelay > 0 && !_exempted[recipient] && !_exempted[sender]) {
             adjustedAmount = adjustedAmount - 1; // Apply a small reduction to the transferred amount
         }
 
