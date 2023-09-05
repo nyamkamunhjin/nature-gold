@@ -6,9 +6,9 @@ const PROXY = "";
 async function main() {
 
 
-    const NatureGold = await ethers.getContractFactory("NatureGoldV2");
+    const NatureGoldV2 = await ethers.getContractFactory("NatureGoldV2");
     console.log("Upgrading NatureGold...");
-    await upgrades.upgradeProxy(PROXY, NatureGold);
+    await upgrades.upgradeProxy(PROXY, NatureGoldV2);
     console.log("NatureGold upgraded");
 }
 

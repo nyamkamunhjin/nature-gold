@@ -29,17 +29,20 @@ module.exports = {
   networks: {
     polygon: {
       url: `https://polygon-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
-      accounts: [PRIVATE_KEY]
+      accounts: [PRIVATE_KEY],
     },
     mumbai: {
       url: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
-      accounts: [PRIVATE_KEY]
+      accounts: [PRIVATE_KEY],
+      gas: 2100000,
+      gasPrice: 8000000000
     }
   },
   allowUnlimitedContractSize: true,
   etherscan: {
     apiKey: {
-      polygon: process.env.POLYGON_SCAN_API_KEY
+      polygon: process.env.POLYGON_SCAN_API_KEY,
+      polygonMumbai: process.env.POLYGON_SCAN_API_KEY
     }
-  }
+  },
 };
