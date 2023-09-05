@@ -30,12 +30,14 @@ module.exports = {
     polygon: {
       url: `https://polygon-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
       accounts: [PRIVATE_KEY],
+      gas: 2100000,
+      gasPrice: 30000000000
     },
     mumbai: {
       url: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
       accounts: [PRIVATE_KEY],
       gas: 2100000,
-      gasPrice: 8000000000
+      gasPrice: 30000000000
     }
   },
   allowUnlimitedContractSize: true,
