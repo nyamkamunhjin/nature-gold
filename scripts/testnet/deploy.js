@@ -16,12 +16,16 @@ async function main() {
       const NatureGoldV3 = await ethers.getContractFactory("NatureGoldV3");
       const BotPrevention = await ethers.getContractFactory("BotPreventionBlacklist");
 
+      console.log("==> begin / deploy: bot prevention");
       bp = await BotPrevention.deploy();
+      console.log("==> end / deploy: bot prevention");
 
+      console.log("==> begin / deploy: nature gold");
       // SC Main Token
       natureGold = await NatureGoldV3.deploy(
           bp.address
       );
+      console.log("==> end / deploy: nature gold");
   };
 
 
