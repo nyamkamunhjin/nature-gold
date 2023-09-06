@@ -21,7 +21,7 @@ contract Governance is Initializable, GovernorUpgradeable, GovernorSettingsUpgra
      * @param _token The address of the token to be used for voting
      */
     function initialize(IVotesUpgradeable _token) public initializer {
-        __Governor_init("NatureGold Governance");
+        __Governor_init("NaturesGold Governance");
         __GovernorSettings_init(7200 /* 1 day */, 50400 /* 1 week */, 0);
         __GovernorCountingSimple_init();
         __GovernorVotes_init(_token);

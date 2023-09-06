@@ -37,10 +37,10 @@ module.exports = {
       url: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
       accounts: [PRIVATE_KEY],
       gas: 2100000,
-      gasPrice: 30000000000
+      gasPrice: 30000000000,
+      allowUnlimitedContractSize: true,
     }
   },
-  allowUnlimitedContractSize: true,
   etherscan: {
     apiKey: {
       polygon: process.env.POLYGON_SCAN_API_KEY,

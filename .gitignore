@@ -10,4 +10,5 @@ cache
 artifacts
 
 # OpenZeppelin
-.openzeppelin/*
+.openzeppelin/unknown-*.json
+
