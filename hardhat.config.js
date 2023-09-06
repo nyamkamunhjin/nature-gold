@@ -27,11 +27,11 @@ module.exports = {
   },
   networks: {
     polygon: {
-      url: `https://polygon-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+      url: `https://rpc.ankr.com/polygon`,
       chainId: 137,
       timeout: 2_147_483_647,
       accounts: [PRIVATE_KEY],
-      gasPrice: 100000000000
+      gasPrice: 200000000000
     },
     mumbai: {
       url: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
