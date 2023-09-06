@@ -13,7 +13,7 @@ contract BotPrevention is IBotPrevention, Ownable, AccessControl {
     uint256 public maxBuyTokenPerTx = 20000 * 1e18;
 
     uint256 public lockDuration = 86400; // 24 hours
-    uint8 public releasePercent = 20; // release 20%
+    uint8 public releasePercent = 100; // release 100%
     uint256 public cooldownDuration = 30; //30 seconds
 
     mapping(address => AddressReputation) public addressReputationMap;
