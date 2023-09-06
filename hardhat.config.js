@@ -2,7 +2,6 @@ const dotenv = require('dotenv')
 
 require("@nomiclabs/hardhat-ethers");
 require("@openzeppelin/hardhat-upgrades")
-require("@nomicfoundation/hardhat-chai-matchers")
 
 dotenv.config()
 
@@ -22,7 +21,7 @@ module.exports = {
     settings: {
       optimizer: {
         enabled: true,
-        runs: 200,
+        runs: 1000,
       },
     },
   },
@@ -40,6 +39,14 @@ module.exports = {
       gasPrice: 30000000000
     }
   },
+  abiExporter: {
+    path: "data/abi",
+    runOnCompile: true,
+    clear: true,
+    flat: true,
+    only: [],
+    spacing: 4,
+  },
   allowUnlimitedContractSize: true,
   etherscan: {
     apiKey: {
@@ -47,4 +54,7 @@ module.exports = {
       polygonMumbai: process.env.POLYGON_SCAN_API_KEY
     }
   },
+  mocha: {
+    timeout: 20000
+  }
 };

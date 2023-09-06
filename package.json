@@ -1,12 +1,43 @@
 {
+  "scripts": {
+    "compile": "hardhat compile",
+    "node:local": "hardhat node",
+    "console:local": "hardhat console --network localhost",
+    "run:local": "hardhat run --network localhost",
+    "run:mumbai": "hardhat run --network mumbai",
+    "run:polygon": "hardhat run --network polygon",
+    "test": "hardhat test",
+    "hardhat": "hardhat",
+    "size": "hardhat size-contracts",
+    "verify:mumbai": "hardhat verify --network mumbai",
+    "verify:polygon": "hardhat verify --network polygon",
+    "clean": "hardhat clean"
+  },
   "devDependencies": {
-    "@nomicfoundation/hardhat-chai-matchers": "^1.0.6",
-    "@nomiclabs/hardhat-ethers": "^2.0.2",
-    "@openzeppelin/contracts-upgradeable": "^4.9.3",
-    "@openzeppelin/hardhat-upgrades": "^1.1.1",
-    "chai": "^4.3.6",
-    "dotenv": "^16.3.1",
-    "ethers": "^5.7.0",
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
     "hardhat": "^2.17.1"
+  },
+  "dependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@nomiclabs/hardhat-etherscan": "^3.1.7",
+    "@nomiclabs/hardhat-waffle": "^2.0.6",
+    "@openzeppelin/contracts": "^4.9.1",
+    "@openzeppelin/contracts-upgradeable": "^4.9.1",
+    "@openzeppelin/hardhat-upgrades": "^1.27",
+    "@types/chai": "^4.3.5",
+    "@types/mocha": "^10.0.1",
+    "chai": "^4.3.7",
+    "dotenv": "^16.3.1",
+    "ethereum-waffle": "^4.0.10",
+    "ethereumjs-abi": "^0.6.8",
+    "ethers": "^5.6.9",
+    "hardhat-abi-exporter": "^2.10.1",
+    "hardhat-contract-sizer": "^2.9.0",
+    "hardhat-gas-reporter": "^1.0.9",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  },
+  "prettier": {
+    "printWidth": 120
   }
 }
