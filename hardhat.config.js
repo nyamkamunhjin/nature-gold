@@ -28,9 +28,10 @@ module.exports = {
   networks: {
     polygon: {
       url: `https://polygon-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+      chainId: 137,
+      timeout: 2_147_483_647,
       accounts: [PRIVATE_KEY],
-      gas: 2100000,
-      gasPrice: 30000000000
+      gasPrice: 100000000000
     },
     mumbai: {
       url: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
