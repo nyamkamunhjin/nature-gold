@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/security/Pausable.sol";
 
 import "../BP/interfaces/IBotPrevention.sol";
 
-contract NatureGold is ERC20, Pausable, Ownable, AccessControl {
+contract NatureGoldV3 is ERC20, Pausable, Ownable, AccessControl {
     bytes32 private constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
     address private constant BURN_ADDRESS =
