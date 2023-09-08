@@ -17,12 +17,14 @@ async function main() {
   console.log("Account balance:", (await owner.getBalance()).toString());
 
   let natureGold;
-  let bp = '0x0';
+  let bp;
+  let governance;
 
   const deploy = async () => {
     // -- Token
     const NatureGoldV3 = await ethers.getContractFactory("NatureGoldV3");
     const BotPrevention = await ethers.getContractFactory("BotPrevention");
+    const Governance = await ethers.getContractFactory("Governance");
 
     console.log("==> begin / deploy: bot prevention");
 
@@ -46,6 +48,16 @@ async function main() {
     await natureGold.deployed();
 
     console.log("==> end / deploy: nature gold");
+
+    console.log("--> begin / deploy: nature gold governance");
+
+    governance = await Governance.deploy(natureGold.address);
+
+
+    await governance.deployed()
+
+    console.log("--> end / deploy: nature gold governance");
+
   };
 
 
@@ -57,6 +69,7 @@ async function main() {
     console.table({
       natureGold: natureGold.address,
       bp: bp.address,
+      governance: governance.address
     });
   };
 

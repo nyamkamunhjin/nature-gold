@@ -14,9 +14,9 @@ async function main() {
     await natureGold.deployed();
     console.log(`NatureGold deployed to: ${natureGold.address}`)
 
-  // const governance = await upgrades.deployProxy(await ethers.getContractFactory('Governance'), [natureGold.address]);
-  // await governance.deployed();
-  // console.log(`Governance deployed to: ${governance.address}`)
+  const governance = await upgrades.deployProxy(await ethers.getContractFactory('Governance'), [natureGold.address]);
+  await governance.deployed();
+  console.log(`Governance deployed to: ${governance.address}`)
 }
 
 main()
