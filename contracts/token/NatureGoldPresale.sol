@@ -24,7 +24,7 @@ contract NatureGoldPresale is ERC20, Pausable, Ownable, AccessControl {
     uint256 constant INITIAL_SUPPLY = 388_793_750 * (10 ** 18);
     uint256 public _burntAmount;
 
-    constructor(address bpAddr) ERC20("NaturesGold Token (BSC to Polygon)", "NGOLD (BSC to Polygon)") {
+    constructor(address bpAddr) ERC20("NaturesGold Token (BSC Placeholder)", "NGOLD (BSC Placeholder)") {
         _bpAddr = bpAddr;
         _isEnableBP = true;
 
