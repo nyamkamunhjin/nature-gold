@@ -5,12 +5,16 @@
     "console:local": "hardhat console --network localhost",
     "run:local": "hardhat run --network localhost",
     "run:mumbai": "hardhat run --network mumbai",
+    "run:bsc-test": "hardhat run --network bsc-test",
+    "run:bsc": "hardhat run --network bsc",
     "run:polygon": "hardhat run --network polygon",
     "test": "hardhat test",
     "hardhat": "hardhat",
     "size": "hardhat size-contracts",
     "verify:mumbai": "hardhat verify --network mumbai",
     "verify:polygon": "hardhat verify --network polygon",
+    "verify:bsc": "hardhat verify --network bsc",
+    "verify:bsc-test": "hardhat verify --network bsc-test",
     "clean": "hardhat clean"
   },
   "devDependencies": {

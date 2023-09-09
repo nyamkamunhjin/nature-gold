@@ -36,6 +36,17 @@ module.exports = {
     mumbai: {
       url: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
       accounts: [PRIVATE_KEY],
+    },
+    bsc: {
+      url: `https://bsc-dataseed.bnbchain.org`,
+      chainId: 56,
+      accounts: [PRIVATE_KEY],
+      gasPrice: 3000000000
+    },
+    'bsc-test': {
+      url: `https://data-seed-prebsc-1-s1.bnbchain.org:8545`,
+      accounts: [PRIVATE_KEY],
+      gasPrice: 10000000000
     }
   },
   abiExporter: {
@@ -50,7 +61,8 @@ module.exports = {
   etherscan: {
     apiKey: {
       polygon: process.env.POLYGON_SCAN_API_KEY,
-      polygonMumbai: process.env.POLYGON_SCAN_API_KEY
+      polygonMumbai: process.env.POLYGON_SCAN_API_KEY,
+      bscTestnet: process.env.BSC_SCAN_API_KEY
     }
   },
   mocha: {
