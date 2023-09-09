@@ -62,7 +62,8 @@ module.exports = {
     apiKey: {
       polygon: process.env.POLYGON_SCAN_API_KEY,
       polygonMumbai: process.env.POLYGON_SCAN_API_KEY,
-      bscTestnet: process.env.BSC_SCAN_API_KEY
+      bscTestnet: process.env.BSC_SCAN_API_KEY,
+      bsc: process.env.BSC_SCAN_API_KEY
     }
   },
   mocha: {
