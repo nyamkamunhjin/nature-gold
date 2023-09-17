@@ -43,6 +43,11 @@ module.exports = {
       accounts: [PRIVATE_KEY],
       gasPrice: 3000000000
     },
+    sepolia: {
+      url: `https://ethereum-sepolia.blockpi.network/v1/rpc/public`,
+      chainId: 11155111,
+      accounts: [PRIVATE_KEY],
+    },
     'bsc-test': {
       url: `https://data-seed-prebsc-1-s1.bnbchain.org:8545`,
       accounts: [PRIVATE_KEY],
@@ -63,7 +68,8 @@ module.exports = {
       polygon: process.env.POLYGON_SCAN_API_KEY,
       polygonMumbai: process.env.POLYGON_SCAN_API_KEY,
       bscTestnet: process.env.BSC_SCAN_API_KEY,
-      bsc: process.env.BSC_SCAN_API_KEY
+      bsc: process.env.BSC_SCAN_API_KEY,
+      sepolia: process.env.ETH_SCAN_API_KEY,
     }
   },
   mocha: {
