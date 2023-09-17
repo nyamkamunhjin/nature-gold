@@ -9,9 +9,14 @@ async function main() {
     console.log(botPrevention)
 
     console.log("Adding uniswap router");
-    const uniswapRouterAddress = '0xE592427A0AEce92De3Edee1F18E0157C05861564'
+    
+    const uniswapRouterAddress = [
+        '0xE592427A0AEce92De3Edee1F18E0157C05861564',
+        '0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45',
+        '0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD'
+    ]
 
-    const result = await botPrevention.addRouters([uniswapRouterAddress]);
+    const result = await botPrevention.addRouters(uniswapRouterAddress);
 
     console.log(result);
 
