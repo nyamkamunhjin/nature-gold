@@ -27,9 +27,7 @@ async function main() {
 
   const deploy = async () => {
     // -- Token
-    const NatureGoldV3 = await ethers.getContractFactory("NatureGoldV3");
     const BotPrevention = await ethers.getContractFactory("BotPrevention");
-    const Governance = await ethers.getContractFactory("Governance");
 
     console.log("==> begin / deploy: bot prevention");
 
@@ -44,16 +42,6 @@ async function main() {
 
     console.log("==> end / deploy: bot prevention");
 
-    console.log("==> begin / deploy: nature gold");
-    // SC Main Token
-    natureGold = await NatureGoldV3.deploy(
-      bp.address
-    );
-
-    await natureGold.deployed();
-
-    console.log("==> end / deploy: nature gold");
-
   };
 
 
@@ -63,7 +51,6 @@ async function main() {
 
   const consoleAddresses = async () => {
     console.table({
-      natureGold: natureGold.address,
       bp: bp.address,
     });
   };
