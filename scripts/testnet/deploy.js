@@ -23,21 +23,16 @@ async function main() {
   const deploy = async () => {
     // -- Token
     const NatureGoldV3 = await ethers.getContractFactory("NatureGoldV3");
-    const BotPrevention = await ethers.getContractFactory("BotPrevention");
+    const BotPrevention = await ethers.getContractFactory("BotPreventionBlacklist");
     const Governance = await ethers.getContractFactory("Governance");
 
-    console.log("==> begin / deploy: bot prevention");
+    console.log("==> begin / deploy: bot prevention blacklist");
 
-    bp = await BotPrevention.deploy(
-      dayjs().utc().unix(),
-      3 * 60, 24 * 60 * 60,
-      ethers.utils.parseUnits("20000", 18),
-      100,
-      30);
+    bp = await BotPrevention.deploy();
 
     await bp.deployed();
 
-    console.log("==> end / deploy: bot prevention");
+    console.log("==> end / deploy: bot prevention blacklist");
 
   };
 
