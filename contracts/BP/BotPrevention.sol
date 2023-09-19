@@ -17,10 +17,16 @@ contract BotPrevention is IBotPrevention, Ownable, AccessControl {
     uint256 public cooldownDuration = 30; //30 seconds
 
     mapping(address => AddressReputation) public addressReputationMap;
+    mapping(address => bool) public isBlacklist;
+
 
     event AddWhiteListEvent(address[] _whitelistAddress);
 
     event RemoveWhitelistEvent(address[] _whitelistAddress);
+
+    event AddBlackListEvent(address[] _blacklistAddress);
+
+    event RemoveBlacklistEvent(address[] _blacklistAddress);
 
     event AddRoutersEvent(address[] _routerAddresses);
 
@@ -60,6 +66,30 @@ contract BotPrevention is IBotPrevention, Ownable, AccessControl {
 
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
+
+
+    function addBlacklist(
+        address[] calldata _blacklistAddress
+    ) external onlyOwner {
+        require(_blacklistAddress.length > 0, "length > 0");
+        for (uint256 i = 0; i < _blacklistAddress.length; i++) {
+            isBlacklist[_blacklistAddress[i]] = true;
+        }
+
+        emit AddBlackListEvent(_blacklistAddress);
+    }
+
+    function removeBlacklist(
+        address[] calldata _blacklistAddress
+    ) external onlyOwner {
+        require(_blacklistAddress.length > 0, "length > 0");
+        for (uint256 i = 0; i < _blacklistAddress.length; i++) {
+            isBlacklist[_blacklistAddress[i]] = false;
+        }
+
+        emit RemoveBlacklistEvent(_blacklistAddress);
+    }
+
 
     function addWhitelist(
         address[] calldata _whitelistAddress
@@ -177,6 +207,11 @@ contract BotPrevention is IBotPrevention, Ownable, AccessControl {
         address receiver,
         uint256 amount
     ) external override onlyRole(PROTECTED_ROLE) {
+        require(
+            !isBlacklist[sender] && !isBlacklist[receiver],
+            "BL - contact us"
+        );
+
         bool isInLockTime = block.timestamp < (startTime + lockDuration);
 
         if (!isInLockTime) {
