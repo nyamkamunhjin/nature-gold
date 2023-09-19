@@ -6,7 +6,12 @@ const utc = require('dayjs/plugin/utc')
 dayjs.extend(utc)
 dayjs.utc()
 
-console.log(dayjs().utc().isUTC())
+
+console.log(1695136164,
+  3 * 60, 24 * 60 * 60,
+  ethers.utils.parseUnits("20000", 18),
+  100,
+  30)
 
 const PROTECTED_ROLE = ethers.utils.keccak256(ethers.utils.toUtf8Bytes("PROTECTED_ROLE"));
 
@@ -29,7 +34,7 @@ async function main() {
     console.log("==> begin / deploy: bot prevention");
 
     bp = await BotPrevention.deploy(
-      dayjs().utc().unix(),
+      1695136164,
       3 * 60, 24 * 60 * 60,
       ethers.utils.parseUnits("20000", 18),
       100,
@@ -62,6 +67,8 @@ async function main() {
       bp: bp.address,
     });
   };
+
+
 
   await deploy();
   await consoleAddresses();
