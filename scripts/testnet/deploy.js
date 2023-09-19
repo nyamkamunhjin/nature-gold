@@ -6,12 +6,7 @@ const utc = require('dayjs/plugin/utc')
 dayjs.extend(utc)
 dayjs.utc()
 
-
-console.log(1695136164,
-  3 * 60, 24 * 60 * 60,
-  ethers.utils.parseUnits("20000", 18),
-  100,
-  30)
+console.log(dayjs().utc().isUTC())
 
 const PROTECTED_ROLE = ethers.utils.keccak256(ethers.utils.toUtf8Bytes("PROTECTED_ROLE"));
 
@@ -27,12 +22,14 @@ async function main() {
 
   const deploy = async () => {
     // -- Token
+    const NatureGoldV3 = await ethers.getContractFactory("NatureGoldV3");
     const BotPrevention = await ethers.getContractFactory("BotPrevention");
+    const Governance = await ethers.getContractFactory("Governance");
 
     console.log("==> begin / deploy: bot prevention");
 
     bp = await BotPrevention.deploy(
-      1695136164,
+      dayjs().utc().unix(),
       3 * 60, 24 * 60 * 60,
       ethers.utils.parseUnits("20000", 18),
       100,
@@ -46,7 +43,7 @@ async function main() {
 
 
   const botPreventionConfig = async () => {
-    await (await bp.connect(owner).grantRole(PROTECTED_ROLE, natureGold.address)).wait();
+    await (await bp.connect(owner).grantRole(PROTECTED_ROLE, '0xa64a329876a27192c7f8bde4430bdec70ea4b2f9')).wait();
   };
 
   const consoleAddresses = async () => {
@@ -54,8 +51,6 @@ async function main() {
       bp: bp.address,
     });
   };
-
-
 
   await deploy();
   await consoleAddresses();
